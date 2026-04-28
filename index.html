@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>send</title>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<style>
+body {
+  margin: 0;
+  background: #f5f5f5;
+  font-family: -apple-system, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.card {
+  width: 260px;
+  padding: 14px;
+  background: #111;
+  border-radius: 12px;
+}
+
+/* 🔥 입력칸 밝은 회색 */
+input, textarea {
+  width: 100%;
+  background: #e0e0e0;
+  border: none;
+  color: #111;
+  font-size: 13px;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  outline: none;
+}
+
+textarea {
+  resize: none;
+  height: 60px;
+}
+
+/* 🔥 버튼 흰색 */
+button {
+  width: 100%;
+  padding: 8px;
+  font-size: 12px;
+  background: #ffffff;
+  color: #111;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+button:hover {
+  background: #ddd;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <input id="name" placeholder="name">
+  <textarea id="msg" placeholder="message"></textarea>
+  <button onclick="send()">send</button>
+</div>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyBNgsQayMLKkOe7u4bKkjyIMlB56v-LTwY",
+  authDomain: "talk-fdee0.firebaseapp.com",
+  projectId: "talk-fdee0"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+function send() {
+  const name = document.getElementById("name").value || "익명";
+  const text = document.getElementById("msg").value;
+
+  if (!text.trim()) return;
+
+  db.collection("messages").add({
+    name: name,
+    text: text,
+    time: new Date()
+  });
+
+  document.getElementById("msg").value = "";
+}
+</script>
+
+</body>
+</html>
